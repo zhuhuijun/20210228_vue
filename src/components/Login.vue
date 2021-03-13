@@ -5,26 +5,82 @@
         <img src="../assets/logo.png" alt="" />
       </div>
       <!-- 表单区 -->
-      <el-form class="login_form">
+      <el-form
+        class="login_form"
+        :model="loginForm"
+        :rules="loginRules"
+        ref="loginFormRef"
+      >
         <!-- 用户名 -->
-        <el-form-item>
-          <el-input></el-input>
+        <el-form-item prop="userName">
+          <el-input
+            prefix-icon="iconfont icon-portrait"
+            placeholder="请输入用户名"
+            v-model="loginForm.userName"
+          ></el-input>
         </el-form-item>
         <!-- 密码 -->
-        <el-form-item>
-          <el-input></el-input>
+        <el-form-item prop="passWord">
+          <el-input
+            placeholder="请输入密码"
+            prefix-icon="iconfont icon-suo"
+            v-model="loginForm.passWord"
+            type="password"
+          ></el-input>
         </el-form-item>
         <!-- 按钮 -->
         <el-form-item class="btns">
-          <el-button type="primary">登录</el-button>
-          <el-button type="info">重置</el-button>
+          <el-button type="primary" @click="loginSubmit">登录</el-button>
+          <el-button type="info" @click="resetLoginForm">重置</el-button>
         </el-form-item>
       </el-form>
     </div>
   </div>
 </template>
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      // 登录表单的数据访问对象
+      loginForm: {
+        userName: "zs01",
+        passWord: "123456"
+      },
+      loginRules: {
+        userName: [
+          { required: true, message: "请输入用户名", trigger: "blur" },
+          {
+            min: 3,
+            max: 10,
+            message: "长度在3 到 10个字符"
+          }
+        ],
+        passWord: [
+          { required: true, message: "请输入密码", trigger: "blur" },
+          {
+            min: 6,
+            max: 15,
+            message: "长度在6 到 15个字符"
+          }
+        ]
+      }
+    };
+  },
+  methods: {
+    // 重置登录表单
+    resetLoginForm() {
+      // console.log(this);
+      this.$refs.loginFormRef.resetFields();
+    },
+    loginSubmit() {
+      this.$refs.loginFormRef.validate((valid) => {
+        console.log(valid);
+        if (!valid) return;
+        this.$http.post("login", this.loginForm);
+      });
+    }
+  }
+};
 </script>
 
 <style lang="less" scoped>

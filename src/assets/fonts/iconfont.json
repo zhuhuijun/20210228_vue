@@ -1,0 +1,23 @@
+{
+  "id": "2403821",
+  "name": "2021vue",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "1016754",
+      "name": "头像",
+      "font_class": "portrait",
+      "unicode": "e6da",
+      "unicode_decimal": 59098
+    },
+    {
+      "icon_id": "20016775",
+      "name": "锁",
+      "font_class": "suo",
+      "unicode": "e839",
+      "unicode_decimal": 59449
+    }
+  ]
+}
