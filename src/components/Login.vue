@@ -43,44 +43,49 @@ export default {
     return {
       // 登录表单的数据访问对象
       loginForm: {
-        userName: "zs01",
-        passWord: "123456"
+        userName: 'zs01',
+        passWord: '123456'
       },
       loginRules: {
         userName: [
-          { required: true, message: "请输入用户名", trigger: "blur" },
+          { required: true, message: '请输入用户名', trigger: 'blur' },
           {
             min: 3,
             max: 10,
-            message: "长度在3 到 10个字符"
+            message: '长度在3 到 10个字符'
           }
         ],
         passWord: [
-          { required: true, message: "请输入密码", trigger: "blur" },
+          { required: true, message: '请输入密码', trigger: 'blur' },
           {
             min: 6,
             max: 15,
-            message: "长度在6 到 15个字符"
+            message: '长度在6 到 15个字符'
           }
         ]
       }
-    };
+    }
   },
   methods: {
     // 重置登录表单
     resetLoginForm() {
       // console.log(this);
-      this.$refs.loginFormRef.resetFields();
+      this.$refs.loginFormRef.resetFields()
     },
     loginSubmit() {
-      this.$refs.loginFormRef.validate((valid) => {
-        console.log(valid);
-        if (!valid) return;
-        this.$http.post("login", this.loginForm);
-      });
+      this.$refs.loginFormRef.validate(async (valid) => {
+        console.log(valid)
+        if (!valid) return
+        const { data: result } = await this.$http.post('login', this.loginForm)
+        if (result.meta.status !== 200) return this.$message.error('登录失败')
+        this.$message.success('登录成功')
+        console.log(result)
+        window.sessionStorage.setItem('token', result.data.token)
+        this.$router.push('/home')
+      })
     }
   }
-};
+}
 </script>
 
 <style lang="less" scoped>
